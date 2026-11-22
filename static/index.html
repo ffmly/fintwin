@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080a09">
+  <title>Fintwin — مختبر القرار التجاري</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=2.2">
+  <link rel="stylesheet" href="/static/mono.css?v=2.2">
+  <link rel="stylesheet" href="/static/live-market.css?v=2.2">
+  <link rel="stylesheet" href="/static/refinement.css?v=6">
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" data-view="home" aria-label="Fintwin">
+      <span class="brand-mark">F</span><span>Fintwin</span>
+    </a>
+    <nav class="topnav" aria-label="التنقل الرئيسي">
+      <button data-view="home" class="nav-link active">الرئيسية</button>
+      <button data-view="projects" class="nav-link">مشاريعي</button>
+      <button data-view="new" class="nav-link">مختبر السيناريو</button>
+      <button data-view="admin" class="nav-link">الإدارة</button>
+    </nav>
+    <button id="mobileMenu" class="mobile-menu" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+    <div class="top-actions">
+      <span class="status-dot" id="engineStatus"><i></i> محرك المحاكاة جاهز</span>
+      <button id="userButton" class="user-pill">دخول</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="view-home" class="view active">
+      <div class="hero-shell">
+        <div class="hero-grid"></div>
+        <div class="hero-copy">
+          <h1>جرّب مشروعك<br><span>قبل ما يجرّبه السوق.</span></h1>
+          <p>اختبر فكرتك مع شخصيات افتراضية وسيناريوهات مستوحاة من سلوك السوق الجزائري. قارن الطلب، الثقة، حساسية السعر وأثر القرار المالي قبل الإطلاق، ثم أكّد الفرضيات بتجربة ميدانية.</p>
+          <div class="hero-actions">
+            <button class="btn btn-lime" data-view="new">ابنِ توأم مشروعك <span>↗</span></button>
+            <button class="btn btn-ghost" data-scroll="how">شوف كيفاش يخدم</button>
+          </div>
+          <div class="trust-strip">
+            <span><b>01</b> Synthetic Demand</span>
+            <span><b>02</b> Scenario Stress Test</span>
+            <span><b>03</b> Cash-flow Impact</span>
+          </div>
+        </div>
+        <div id="marketPeople" class="crowd-stage" role="img" aria-label="شخصيات مستقلة تمثل فاعلي السوق الجزائري"></div>
+        <button id="motionToggle" class="motion-toggle" type="button" aria-pressed="false">Ⅱ إيقاف الحركة</button>
+        <div class="floating-card signal-card">
+          <span>MARKET SIGNAL</span><strong>+12.4%</strong><small>فرصة محسوبة</small>
+        </div>
+        <div class="floating-card pulse-card">
+          <span class="pulse"></span><div><strong>Live twin</strong><small>سيناريوهات قابلة للمقارنة</small></div>
+        </div>
+      </div>
+
+      <section class="metric-ribbon">
+        <div><span>تحليل متعدد الأبعاد</span><strong>السعر × الثقة × التجربة</strong></div>
+        <div><span>Financial intelligence</span><strong>هامش · تعادل · سيولة</strong></div>
+        <div><span>Algerian context</span><strong>دج · BaridiMob · COD</strong></div>
+        <div><span>Decision memory</span><strong>كل فرضية محفوظة</strong></div>
+      </section>
+
+      <section id="how" class="section narrative">
+        <div class="section-kicker">FROM IDEA TO EVIDENCE</div>
+        <div class="section-heading"><h2>ماشي forecast أسود.<br>خريطة قرار مفهومة.</h2><p>المنصة تفصل بين ما تعرفه، ما تفترضه، وما لازم تختبره في السوق. الحقول غير الإجبارية تبقى فرضيات شفافة بدل أرقام مخترعة.</p></div>
+        <div class="process-grid">
+          <article><span>01</span><div class="process-icon">◇</div><h3>عرّف النشاط</h3><p>وصف حر، جمهور، ولايات وقنوات بيع. ابدأ بالقليل وزِد التفاصيل وقت تتوفر.</p></article>
+          <article><span>02</span><div class="process-icon">▦</div><h3>أدخل العرض</h3><p>منتج واحد أو catalog كامل: يدوي، لصق سريع أو CSV منظم.</p></article>
+          <article><span>03</span><div class="process-icon">↯</div><h3>شغّل الضغط</h3><p>بدّل السعر، الدفع، التوصيل أو التكاليف وشاهد أثر القرار قبل التنفيذ.</p></article>
+          <article><span>04</span><div class="process-icon">◎</div><h3>اقرأ الإشارة</h3><p>Intent، conversion، unit economics، اعتراضات وشرائح—مع حدود عدم اليقين.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section id="view-new" class="view app-view">
+      <aside class="lab-sidebar">
+        <div class="side-title"><span class="brand-mark small">F</span><div><b>Decision Lab</b><small>بناء التوأم التجاري</small></div></div>
+        <ol class="steps">
+          <li class="active" data-step="1"><b>01</b><div>هوية المشروع<small>الفكرة والسوق</small></div></li>
+          <li data-step="2"><b>02</b><div>العرض والمنتجات<small>Catalog مرن</small></div></li>
+          <li data-step="3"><b>03</b><div>اقتصاديات الوحدة<small>السعر والتكلفة</small></div></li>
+          <li data-step="4"><b>04</b><div>تجربة الزبون<small>اختياري بالكامل</small></div></li>
+          <li data-step="5"><b>05</b><div>مراجعة وتشغيل<small>فرضياتك بوضوح</small></div></li>
+        </ol>
+        <div class="side-note"><span>✦</span><p><b>ما تعرفش رقم؟ عادي.</b><br>خليه فارغ ونستعمل benchmark معلّم بوضوح كفرضية.</p></div>
+      </aside>
+
+      <div class="lab-main">
+        <div class="lab-head">
+          <div><span class="eyebrow">DIGITAL MARKET TWIN</span><h2 id="stepTitle">خلّينا نفهم المشروع</h2><p id="stepSubtitle">احكيلنا على الفكرة كيما تشرحها لشريك محتمل.</p></div>
+          <div class="progress-wrap"><span id="progressText">المرحلة 1 من 5</span><div class="progress"><i id="progressBar"></i></div></div>
+        </div>
+
+        <div class="intake-switch" id="intakeSwitch">
+          <button type="button" class="active" data-intake="brief"><span>✦</span><b>Quick Brief</b><small>اكتب كلش في نص واحد</small></button>
+          <button type="button" data-intake="file"><span>⇧</span><b>Import</b><small>CSV أو ملف بيانات</small></button>
+          <button type="button" data-intake="guided"><span>▦</span><b>Guided Builder</b><small>تحكم تفصيلي اختياري</small></button>
+        </div>
+        <section id="briefIntake" class="smart-intake active">
+          <div class="smart-copy"><span class="ai-orb">✦</span><div><h3>احكيلنا على المشروع في رسالة واحدة</h3><p>اكتب الفكرة، المنتجات، الأسعار، التوصيل، المصاريف والجمهور—بالترتيب اللي يجيك. Decision Parser يحول النص إلى فرضيات قابلة للمراجعة.</p></div></div>
+          <textarea id="masterBrief" rows="11" placeholder="مثال: حاب نفتح متجر أونلاين لملابس streetwear في الجزائر ووهران. نبدأ بثلاث منتجات... سعر الهودي 5900 دج وتكلفته تقريباً 2800 دج. التوصيل بين 450 و700 دج والدفع عند الاستلام أو بريدي موب..."></textarea>
+          <div class="brief-footer"><span>دارجة · عربية · Français · English</span><button type="button" id="analyzeBrief" class="btn btn-lime">حلّل المشروع وعمّر الفرضيات <span>✦</span></button></div>
+        </section>
+        <section id="fileIntake" class="smart-intake"><div class="dropzone large" id="projectFileDrop"><div class="drop-icon">⇧</div><h3>ارفع ملف المشروع</h3><p>CSV للمنتجات، أو TXT/MD فيه وصف المشروع الكامل</p><input id="projectFile" type="file" accept=".csv,.txt,.md,text/csv,text/plain"><button type="button" class="btn btn-soft">اختيار ملف</button></div></section>
+
+        <form id="projectForm" class="guided-form hidden" novalidate>
+          <section class="form-step active" data-step-panel="1">
+            <div class="form-grid two">
+              <label class="field"><span>اسم المشروع <i>ضروري</i></span><input name="project_name" required placeholder="مثال: قهوة نواة"></label>
+              <label class="field"><span>نوع النشاط <i>ضروري</i></span><select name="activity_label" id="activitySelect" required></select></label>
+            </div>
+            <label class="field hidden" id="customActivityField"><span>اسم النشاط الذي لم تجده في القائمة</span><input name="custom_activity" id="customActivity" placeholder="مثال: اشتراك كتب، منصة تعليمية، نادي رياضي"><em class="field-hint">سنستعمل نموذجاً عاماً قابلاً للمقارنة، وتبقى تفاصيل نشاطك في الوصف.</em></label>
+            <label class="field"><span>اشرح المشروع بطريقتك <small>اختياري، لكن يساعد التحليل كثيراً</small></span><textarea name="description" rows="7" placeholder="شنو تبيع؟ لمن؟ علاش يختارك الزبون؟ كيف توصله؟ وش هو المشكل اللي تحله؟ ما لازمش كلام رسمي..."></textarea><em class="field-hint">تقدر تكتب بالدارجة، العربية أو الفرنسية.</em></label>
+            <div class="form-grid two">
+              <label class="field"><span>الزبون اللي تستهدفه</span><input name="target_customer" placeholder="مثال: طلبة وموظفون 20–35 سنة"></label>
+              <label class="field"><span>مرحلة المشروع</span><select name="stage"><option value="idea">فكرة فقط</option><option value="validation">نجرب السوق</option><option value="early">بدأت نبيع</option><option value="growth">نحب نتوسع</option></select></label>
+            </div>
+            <div class="field"><span>الولايات المستهدفة <small>اختياري</small></span><div id="wilayaChips" class="chips"></div></div>
+          </section>
+
+          <section class="form-step" data-step-panel="2">
+            <div class="catalog-head"><div><h3>Catalog المنتجات أو الخدمات</h3><p>اختار الطريقة الأسهل. تقدر تتجاوزها وتدخل متوسط واحد في المرحلة التالية.</p></div><div class="mode-tabs"><button type="button" class="active" data-catalog-mode="manual">إدخال يدوي</button><button type="button" data-catalog-mode="paste">لصق قائمة</button><button type="button" data-catalog-mode="csv">رفع CSV</button></div></div>
+            <div id="catalogManual" class="catalog-panel active"><div class="table-wrap"><table class="product-table"><thead><tr><th>المنتج / الخدمة</th><th>الفئة</th><th>سعر البيع دج <span class="help" data-tip="المبلغ الذي يدفعه الزبون قبل التوصيل.">?</span></th><th>التكلفة المتغيرة دج <span class="help" data-tip="ما يزيد مباشرة مع كل وحدة: شراء السلعة، مواد، تغليف أو عمولة.">?</span></th><th>المخزون</th><th></th></tr></thead><tbody id="productRows"></tbody></table></div><button type="button" id="addProduct" class="btn btn-soft">+ أضف منتجاً</button></div>
+            <div id="catalogPaste" class="catalog-panel"><label class="field"><span>كل منتج في سطر</span><textarea id="pasteProducts" rows="10" placeholder="قميص Oversize | ملابس | 3200 | 1450 | 25&#10;هودي Premium | ملابس | 5900 | 2800 | 12"></textarea><em class="field-hint">الصيغة: الاسم | الفئة | سعر البيع | التكلفة | المخزون</em></label><button type="button" id="parsePaste" class="btn btn-soft">تحويل إلى Catalog</button></div>
+            <div id="catalogCsv" class="catalog-panel"><div class="dropzone" id="csvDrop"><div class="drop-icon">⇧</div><h3>اسحب ملف CSV هنا</h3><p>أو اضغط للاختيار · UTF-8 · حتى 2MB</p><input id="csvFile" type="file" accept=".csv,text/csv"><button type="button" class="btn btn-soft">اختيار ملف</button></div><div class="csv-spec"><b>الأعمدة المقبولة</b><code>name, category, price_dzd, cost_dzd, stock, monthly_sales</code><button type="button" id="downloadTemplate">تحميل نموذج CSV</button></div></div>
+            <label class="field"><span>ملاحظات على العرض <small>اختياري</small></span><textarea name="offer_notes" rows="4" placeholder="الجودة، الأحجام، الضمان، التخصيص، المواسم..."></textarea></label>
+          </section>
+
+          <section class="form-step" data-step-panel="3">
+            <div class="assumption-banner"><div>≈</div><p><b>الأرقام هنا مش لازم تكون دقيقة من اليوم الأول.</b><br>دخل اللي تعرفه فقط؛ كل قيمة فارغة تبقى Assumption قابلة للتعديل في Scenario Lab.</p></div>
+            <div class="form-grid three">
+              <label class="field"><span>متوسط قيمة الطلب <span class="help" data-tip="Average Order Value: متوسط ما يدفعه الزبون في عملية شراء واحدة.">?</span></span><div class="money"><input name="price" type="number" min="0" placeholder="مثال 4500"><b>دج</b></div></label>
+              <label class="field"><span>التكلفة المتغيرة للوحدة <span class="help" data-tip="تكلفة مرتبطة مباشرة ببيع وحدة واحدة، وليست الإيجار أو الرواتب الثابتة.">?</span></span><div class="money"><input name="unit_cost" type="number" min="0" placeholder="مثال 2100"><b>دج</b></div></label>
+              <label class="field"><span>التكاليف الثابتة الشهرية <span class="help" data-tip="مصروف يبقى حتى لو لم تبع: الإيجار، الاشتراكات، الرواتب الثابتة.">?</span></span><div class="money"><input name="fixed_costs" type="number" min="0" placeholder="مثال 80000"><b>دج</b></div></label>
+            </div>
+            <div class="form-grid three">
+              <label class="field"><span>الوصول المؤهل شهرياً <span class="help" data-tip="عدد الأشخاص المتوقع أن يروا العرض ولديهم احتمال حقيقي للشراء، وليس مجموع المشاهدات.">?</span></span><input name="monthly_reach" type="number" min="0" placeholder="مثال 1200"></label>
+              <label class="field"><span>سعر التوصيل للزبون</span><div class="money"><input name="delivery_price" type="number" min="0" placeholder="اختياري"><b>دج</b></div></label>
+              <label class="field"><span>تكلفة التوصيل عليك</span><div class="money"><input name="delivery_cost" type="number" min="0" placeholder="اختياري"><b>دج</b></div></label>
+            </div>
+            <div class="field"><span>طرق الدفع المتاحة</span><div id="paymentChips" class="chips"></div></div>
+          </section>
+
+          <section class="form-step" data-step-panel="4">
+            <div class="optional-callout"><span>SKIP-FRIENDLY</span><h3>مش لازم تقيّم روحك بأرقام غامضة.</h3><p>بدل “الثقة 70/100”، جاوب على إشارات ملموسة. إذا ما تعرفش، اختار “غير محدد”.</p></div>
+            <div class="signal-grid">
+              <label class="signal"><span class="signal-icon">⌁</span><b>سياسة الاسترجاع</b><select name="return_policy"><option value="unknown">غير محدد</option><option value="clear">مكتوبة وواضحة</option><option value="informal">شفوية فقط</option><option value="none">غير متوفرة</option></select></label>
+              <label class="signal"><span class="signal-icon">◉</span><b>إثباتات الثقة</b><select name="social_proof"><option value="unknown">غير محدد</option><option value="strong">صفحات، عنوان وآراء حقيقية</option><option value="some">بعض الإثباتات</option><option value="none">لا توجد بعد</option></select></label>
+              <label class="signal"><span class="signal-icon">↗</span><b>سرعة الرد</b><select name="response_band"><option value="unknown">غير محدد</option><option value="fast">أقل من 15 دقيقة</option><option value="normal">15–60 دقيقة</option><option value="slow">أكثر من ساعة</option></select></label>
+              <label class="signal"><span class="signal-icon">◇</span><b>وضوح السعر</b><select name="price_clarity"><option value="unknown">غير محدد</option><option value="clear">ظاهر بدون سؤال</option><option value="partial">بعض الأسعار فقط</option><option value="hidden">لازم الزبون يسأل</option></select></label>
+              <label class="signal"><span class="signal-icon">⌂</span><b>سهولة الوصول</b><select name="access_level"><option value="unknown">غير محدد</option><option value="easy">سهل جداً</option><option value="normal">متوسط</option><option value="hard">صعب</option></select></label>
+              <label class="signal"><span class="signal-icon">✦</span><b>جودة العرض البصري</b><select name="visual_quality"><option value="unknown">غير محدد</option><option value="strong">احترافي ومتناسق</option><option value="basic">بسيط ومفهوم</option><option value="none">مازال غير جاهز</option></select></label>
+            </div>
+            <label class="field"><span>تفاصيل خاصة بالنشاط <small>اختياري</small></span><textarea name="experience_notes" rows="5" placeholder="مثلاً: عندي غرف قياس، Wi-Fi، parking، حجز مسبق، تغليف هدايا..."></textarea></label>
+          </section>
+
+          <section class="form-step" data-step-panel="5">
+            <div class="review-hero"><div><span>READY FOR SIMULATION</span><h3>راجع الفرضيات، مش لازم تكمل الفراغات.</h3><p>نوريك بعد التشغيل أي أرقام جاية منك وأيها benchmark، باش يبقى القرار قابل للدفاع قدّام الـjury أو المستثمر.</p></div><div class="readiness"><svg viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.9"></circle><circle id="readinessCircle" cx="21" cy="21" r="15.9"></circle></svg><strong id="readinessScore">0%</strong><small>Data readiness</small></div></div>
+            <div id="reviewContent" class="review-grid"></div>
+            <button type="button" id="editBasics" class="btn btn-soft">راجع اسم المشروع، النشاط والجمهور</button>
+            <label class="consent"><input type="checkbox" required><span>فاهم أن النتائج Decision Support وليست ضماناً تجارياً، والقرار النهائي يحتاج اختباراً ميدانياً.</span></label>
+          </section>
+
+          <div class="form-actions"><button type="button" id="prevStep" class="btn btn-ghost hidden">رجوع</button><span class="autosave">● مسودة محلية محفوظة</span><button type="button" id="nextStep" class="btn btn-dark">التالي <span>←</span></button><button type="submit" id="runSimulation" class="btn btn-lime hidden">شغّل Decision Twin <span>↯</span></button></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-projects" class="view dashboard-view">
+      <div class="page-head"><div><span class="eyebrow">PROJECT MEMORY</span><h2>مشاريعي</h2><p>كل مشروع، فرضياته، الـcatalog والسيناريوهات في ملف واحد.</p></div><button class="btn btn-lime" data-view="new">+ مشروع جديد</button></div>
+      <div id="projectsGrid" class="projects-grid"><div class="empty-state"><span>◇</span><h3>مازال ماكان حتى مشروع</h3><p>أول Digital Market Twin يبدأ من وصف بسيط.</p></div></div>
+    </section>
+
+    <section id="view-detail" class="view dashboard-view">
+      <button class="back-link" data-view="projects">→ رجوع للمشاريع</button>
+      <div id="projectDetail"></div>
+    </section>
+
+    <section id="view-live" class="view live-view">
+      <div id="liveMarketRoot"></div>
+    </section>
+
+    <section id="view-admin" class="view dashboard-view">
+      <div class="page-head"><div><span class="eyebrow">CONTROL ROOM</span><h2>لوحة الإدارة</h2><p>المستخدمون، الاستهلاك، صحة الموديلات والتكلفة.</p></div></div>
+      <div id="adminGate" class="auth-card"><div class="lock">⌁</div><h3>دخول الإدارة</h3><p>كلمة السر محفوظة كـSecret ولا تظهر في الواجهة.</p><input id="adminPassword" type="password" placeholder="ADMIN_PASSWORD"><button id="adminUnlock" class="btn btn-dark">فتح Control Room</button></div>
+      <div id="adminPanel" class="hidden"></div>
+    </section>
+  </main>
+
+  <dialog id="loginDialog" class="modal"><form id="loginForm" method="dialog"><button type="button" class="modal-close">×</button><div class="modal-badge">LOCAL DEMO</div><h2>دخول سريع للتجربة</h2><p>هذا دخول تجريبي محلي بالاسم والإيميل. قبل نشر حسابات حقيقية يلزم ربط Supabase Auth وقاعدة البيانات.</p><label class="field"><span>الاسم</span><input name="name" required placeholder="اسمك"></label><label class="field"><span>الإيميل</span><input name="email" type="email" required placeholder="name@example.com"></label><button class="btn btn-lime full">ابدأ التجربة المحلية</button></form></dialog>
+
+  <script src="/static/live-market.js?v=3.5" defer></script>
+  <script src="/static/app.js?v=3.1" defer></script>
+</body>
+</html>

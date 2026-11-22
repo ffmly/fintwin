@@ -1,0 +1,29 @@
+[
+  {
+    "id": "ons-elcm-2022",
+    "publisher": "Office National des Statistiques",
+    "title": "Enquête Légère sur les Dépenses de Consommation des Ménages 2022",
+    "url": "https://www.ons.dz/IMG/pdf/Consom_menage2022.pdf",
+    "observed_year": 2022,
+    "confidence": "official",
+    "notes": "Reference link only. This document is not loaded, refreshed, or used to calibrate the current simulation. Verify document details before citing."
+  },
+  {
+    "id": "gie-mobile-reference",
+    "publisher": "GIE Monétique",
+    "title": "Activité paiement par mobile (publication year unverified)",
+    "url": "https://www.giemonetique.dz/uploads/2024/Ar/ACTIVIT%C3%89_PAIEMENT_MOBILE_VA.pdf",
+    "observed_year": null,
+    "confidence": "official",
+    "notes": "Reference link only. This document is not loaded, refreshed, or used to calibrate the current simulation. Verify publication year before citing."
+  },
+  {
+    "id": "gie-tpe-reference",
+    "publisher": "GIE Monétique",
+    "title": "Activité paiement sur TPE (publication year unverified)",
+    "url": "https://giemonetique.dz/uploads/2024/ACTIVIT%C3%89_PAIEMENT_SUR_TPE.pdf",
+    "observed_year": null,
+    "confidence": "official",
+    "notes": "Reference link only. This document is not loaded, refreshed, or used to calibrate the current simulation. Verify publication year before citing."
+  }
+]
