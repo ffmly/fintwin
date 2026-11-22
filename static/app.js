@@ -108,9 +108,36 @@ async function openDemo(id){
  try{const data=await api(`/api/demo/${id}`);renderProjectDetail(data);switchView('detail')}
  catch(e){toast(e.message||'حالة العرض غير متاحة حالياً.',true)}
 }
-function scenarioPrompts(activity,config={},result={}){const prompts=[],weakest=(result.study_dimensions||[])[0]?.key,payments=config.payment_methods||[];if(weakest==='evidence'||weakest==='trust')prompts.push('قوي الثقة بإثباتات واضحة');if(weakest==='affordability')prompts.push('نقص السعر 8% وقارن الأثر');else if((result.purchase_intent_pct||0)>65)prompts.push('زيد السعر 7% وقارن الهامش');if(!payments.includes('بريدي موب'))prompts.push('زيد بريدي موب');if(activity==='ecommerce'){if(!config.free_delivery)prompts.push('خلي التوصيل مجاني');if((config.response_minutes||30)>15)prompts.push('اضبط الرد على 10 دقائق')}if(activity==='retail'){if(!config.fitting_rooms)prompts.push('أضف غرف القياس');if(!config.clear_prices)prompts.push('وضح الأسعار')}if(activity==='cafe'){if(!config.wifi)prompts.push('أضف Wi-Fi');if(!config.parking)prompts.push('أضف parking');prompts.push('خفض وقت الانتظار إلى 6 دقائق')}if(activity==='restaurant'){prompts.push('خفض وقت الانتظار إلى 10 دقائق');if(!config.delivery)prompts.push('فعّل التوصيل')}if(activity==='service'){if(!config.online_booking)prompts.push('فعّل الحجز أونلاين');prompts.push('اضبط الرد على 15 دقيقة')}prompts.push('زيد السعر 10% وقارن الأثر','قوي الثقة بإثباتات واضحة');return [...new Set(prompts)].slice(0,3)}
+function scenarioQuickActions(activity,config={},result={}){
+ const actions=[],payments=Array.isArray(config.payment_methods)?config.payment_methods:[],weakest=(result.study_dimensions||[])[0]?.key;
+ const add=(label,prompt,detail)=>{if(!actions.some(action=>action.prompt===prompt))actions.push({label,prompt,detail})};
+ if((weakest==='evidence'||weakest==='trust')&&Number(config.trust_score||0)<100)add('قوّي الثقة','قوي الثقة بإثباتات واضحة','اختبر أثر طمأنة الزبون');
+ if(activity==='ecommerce'){
+  if(!config.free_delivery)add('توصيل مجاني','خلي التوصيل مجاني','قارن الطلب والهامش بعد التوصيل');
+  if(!config.free_delivery&&Number(config.delivery_price)>0)add('خفّض التوصيل 15%','خفض سعر التوصيل 15%','اختبر حساسية تكلفة التوصيل');
+ }else if(activity==='retail'){
+  if(!config.fitting_rooms)add('أضف غرف القياس','أضف غرف القياس','حسّن تجربة الزيارة');
+  if(!config.clear_prices)add('وضّح الأسعار','وضح الأسعار','قلّل تردد الزبائن');
+ }else if(activity==='cafe'){
+  if(!config.wifi)add('أضف Wi-Fi','أضف Wi-Fi','اختبر جلسات العمل والدراسة');
+  if(!config.parking)add('أضف موقف سيارات','أضف parking','اختبر سهولة الوصول');
+  if(Number(config.waiting_minutes)>15)add('قلّل الانتظار','خفض وقت الانتظار إلى 8 دقائق','اختبر سرعة الخدمة');
+ }else if(activity==='restaurant'){
+  if(!config.delivery)add('فعّل التوصيل','فعّل التوصيل','اختبر قناة طلب جديدة');
+  if(Number(config.waiting_minutes)>25)add('قلّل الانتظار','خفض وقت الانتظار إلى 15 دقيقة','اختبر سرعة الخدمة');
+ }else if(activity==='service'){
+  if(!config.online_booking)add('فعّل الحجز أونلاين','فعّل الحجز أونلاين','سهّل الوصول للخدمة');
+  if(Number(config.response_minutes)>120)add('سرّع الرد','اضبط الرد على 30 دقيقة','اختبر أثر سرعة التواصل');
+ }
+ add('ارفع السعر 10%','زيد السعر 10% وقارن الأثر','قارن الهامش مع الطلب');
+ add('خفّض السعر 10%','نقص السعر 10% وقارن الأثر','اختبر حساسية الزبائن للسعر');
+ if(Number(config.trust_score||0)<100)add('قوّي الثقة','قوي الثقة بإثباتات واضحة','اختبر أثر طمأنة الزبون');
+ if(!payments.includes('بريدي موب'))add('أضف بريدي موب','زيد بريدي موب','وسّع خيارات الدفع');
+ if(!payments.includes('بطاقة'))add('أضف البطاقة','أضف بطاقة','وسّع خيارات الدفع');
+ return actions.slice(0,6);
+}
 function actorStory(activity,result){const friction=result.top_objections?.[0]?.label||'التردد قبل القرار',stories={ecommerce:'نفس العرض يُقرأ بثلاث طرق: مخاطرة توصيل، صفقة جيدة، أو علامة موثوقة.',retail:'الزيارة لا تعني نية شراء واحدة؛ وضوح السعر والتجربة يغيّران القرار.',cafe:'المكان نفسه قد يكون محطة سريعة، جلسة اجتماعية، أو مساحة عمل.',restaurant:'الطعم يفتح الباب، لكن النظافة والانتظار والقيمة تحسم الرجوع.',service:'الثقة والسرعة ووضوح النتيجة تغيّر قيمة الخدمة قبل السعر.'};return {title:stories[activity]||'كل قرار تجاري يخلق ردود فعل مختلفة.',friction}}
-function renderActorLab(result,config){const people=result.personas||result.persona_sample||[],story=actorStory(config.activity_key,result),prompts=scenarioPrompts(config.activity_key,config,result);return `<section class="actor-lab"><div class="actor-map-wrap"><div class="actor-map-head"><span>MARKET RELATIONSHIP GRAPH</span><span>${people.length} actors / live physics</span></div><canvas id="marketGraph" class="relationship-graph" role="img" aria-label="شبكة متحركة تبين العلاقات بين شخصيات السوق"></canvas><div id="graphTooltip" class="graph-tooltip"></div><div id="graphLegend" class="graph-legend"></div><div class="graph-hint">اسحب أي نقطة · مرّر عليها للتفاصيل</div></div><div class="actor-story"><span>DECISION INTELLIGENCE / ${escapeHtml(config.activity_key||'MARKET')}</span><h2>${escapeHtml(story.title)}</h2><div class="actor-insight"><b>THE TENSION TO EXPLORE</b><p>أقوى احتكاك ظاهر حالياً: «${escapeHtml(story.friction)}». الشبكة تجمع الناس حسب الدور، الولاية، السلوك والعرض الذي درسوه.</p></div><div class="actor-insight"><b>A DIFFERENT MOVE TO TEST</b><p>الاقتراحات أدناه مولّدة من أضعف بُعد، إعدادات النشاط والنتيجة الحالية—ماشي قائمة ثابتة.</p></div><div class="scenario-suggestions">${prompts.map(p=>`<button type="button" class="scenario-suggestion" data-scenario-prompt="${escapeHtml(p)}">${escapeHtml(p)}</button>`).join('')}</div></div></section>`}
+function renderActorLab(result,config){const people=result.personas||result.persona_sample||[],story=actorStory(config.activity_key,result),prompts=scenarioQuickActions(config.activity_key,config,result).slice(0,3);return `<section class="actor-lab"><div class="actor-map-wrap"><div class="actor-map-head"><span>MARKET RELATIONSHIP GRAPH</span><span>${people.length} actors / live physics</span></div><canvas id="marketGraph" class="relationship-graph" role="img" aria-label="شبكة متحركة تبين العلاقات بين شخصيات السوق"></canvas><div id="graphTooltip" class="graph-tooltip"></div><div id="graphLegend" class="graph-legend"></div><div class="graph-hint">اسحب أي نقطة · مرّر عليها للتفاصيل</div></div><div class="actor-story"><span>DECISION INTELLIGENCE / ${escapeHtml(config.activity_key||'MARKET')}</span><h2>${escapeHtml(story.title)}</h2><div class="actor-insight"><b>THE TENSION TO EXPLORE</b><p>أقوى احتكاك ظاهر حالياً: «${escapeHtml(story.friction)}». الشبكة تجمع الناس حسب الدور، الولاية، السلوك والعرض الذي درسوه.</p></div><div class="actor-insight"><b>A DIFFERENT MOVE TO TEST</b><p>الاقتراحات أدناه مولّدة من إعدادات النشاط والنتيجة الحالية. اضغط قراراً لتطبيقه ومقارنته فوراً.</p></div><div class="scenario-suggestions">${prompts.map(p=>`<button type="button" class="scenario-suggestion" data-scenario-prompt="${escapeHtml(p.prompt)}">${escapeHtml(p.label)} ↗</button>`).join('')}</div></div></section>`}
 
 let marketGraphRAF=0,marketGraphObserver=null;
 function graphHash(text){let h=2166136261;for(const ch of String(text)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0)/4294967295}
@@ -202,7 +229,7 @@ function renderProjectDetail(data){const p=data.project,runs=data.runs,run=runs[
  ${renderActorLab(r,{...c,...run.config})}
  <div class="kpi-grid"><div class="kpi-card"><span>ميل افتراضي للشراء</span><b>${r.purchase_intent_pct}%</b><small>داخل لوحة الشخصيات</small></div><div class="kpi-card"><span>تحويل تقديري</span><b>${r.expected_conversion_pct}%</b><small>من الوصول المتوقع إلى طلب</small></div><div class="kpi-card"><span>ربح شهري تقديري</span><b>${formatDzd(r.monthly_profit_dzd)}</b><small>بعد التكاليف المقدرة</small></div><div class="kpi-card"><span>نقطة التعادل</span><b>${r.break_even_orders??'—'}</b><small>طلبات لتغطية المصاريف الثابتة</small></div></div>
  ${renderStudyDimensions(r)}
- <section class="panel scenario-box scenario-wide" id="scenarioPanel"><div class="scenario-intro"><div><span class="eyebrow">SCENARIO COPILOT</span><h3>جرّب قراراً جديداً</h3><p>اكتب تغييراً واحداً أو أكثر، ثم قارن المؤشرات مع نقطة البداية. مثال: ارفع السعر 10%.</p></div><span class="evidence-badge">نفس الشخصيات · فرضية جديدة</span></div><label class="field" for="scenarioText"><span>ما الذي تريد تغييره؟</span><textarea id="scenarioText" rows="2" placeholder="مثال: ارفع السعر 10% وقارن الأثر"></textarea></label><button class="btn btn-lime" id="runScenario">قارن قبل وبعد ↗</button><div id="scenarioResponse"></div></section>
+ <section class="panel scenario-box scenario-wide" id="scenarioPanel"><div class="scenario-intro"><div><span class="eyebrow">SCENARIO COPILOT</span><h3>جرّب قراراً جديداً</h3><p>اختَر قراراً جاهزاً لتطبيقه فوراً، أو اكتب تغييرك الخاص وقارن أثره مع نقطة البداية.</p></div><span class="evidence-badge">نفس الشخصيات · فرضية جديدة</span></div><div class="quick-decisions"><div class="quick-decisions-head"><strong>قرارات جاهزة لهذا المشروع</strong><small>ضغطة واحدة تشغّل المقارنة قبل وبعد</small></div><div class="quick-decisions-grid">${scenarioQuickActions(c.activity_key,c,r).map(action=>`<button type="button" class="scenario-quick-action" data-scenario-prompt="${escapeHtml(action.prompt)}"><b>${escapeHtml(action.label)}</b><small>${escapeHtml(action.detail)}</small><span aria-hidden="true">↗</span></button>`).join('')}</div></div><label class="field" for="scenarioText"><span>أو اكتب قرارك الخاص</span><textarea id="scenarioText" rows="2" placeholder="مثال: ارفع السعر 10% وقارن الأثر"></textarea></label><button class="btn btn-lime" id="runScenario">قارن قبل وبعد ↗</button><div id="scenarioResponse"></div></section>
  <div class="detail-grid"><div>
   <section class="panel"><div class="panel-head"><h3>Demand signals</h3><small>نفس العرض، قراءات مختلفة</small></div><h4 class="panel-subtitle">حسب الدور في السوق</h4>${(r.market_roles||[]).map(s=>bar(s.role,s.purchase_intent)).join('')||'<p class="field-hint">يظهر التفصيل بعد تشغيل جديد.</p>'}<h4 class="panel-subtitle">حسب سلوك الشراء</h4>${(r.segments||[]).map(s=>bar(s.segment,s.purchase_intent)).join('')}</section>
   <section class="panel"><div class="panel-head"><h3>Catalog & Unit Economics</h3><small>${(c.products||[]).length} منتجات</small></div>${renderProducts(c.products||[],r,c)}</section>
@@ -216,7 +243,7 @@ function renderProjectDetail(data){const p=data.project,runs=data.runs,run=runs[
  const search=$('#personaSearch');if(search)search.oninput=()=>{const q=search.value.toLowerCase();$('#personaTable').innerHTML=renderPersonas(persons.filter(x=>JSON.stringify(x).toLowerCase().includes(q)))};
  if(!data.demo)$$('.run-chip').forEach((chip,index)=>{const view=document.createElement('button');view.type='button';view.className='live-run-btn';view.textContent='عرض النتائج';view.onclick=()=>openProject(p.id,runs[index].id);chip.appendChild(view)});
  const personaTable=$('#personaTable');if(personaTable)personaTable.onclick=e=>{const row=e.target.closest('[data-persona-id]');if(!row)return;const person=persons.find(x=>String(x.persona_id)===row.dataset.personaId);$('#personaStudy').innerHTML=renderPersonaStudy(person);$$('[data-persona-id]',personaTable).forEach(x=>x.classList.toggle('selected',x===row))};
- $$('.scenario-suggestion').forEach(button=>button.onclick=()=>{const box=$('#scenarioText');if(box){box.value=button.dataset.scenarioPrompt;$('#scenarioPanel').scrollIntoView({behavior:'smooth',block:'center'});box.focus({preventScroll:true})}});
+ $$('.scenario-suggestion, .scenario-quick-action').forEach(button=>button.onclick=()=>{const box=$('#scenarioText');if(!box||$('#runScenario')?.disabled)return;box.value=button.dataset.scenarioPrompt;runScenario(p.id,run.parent_run_id||run.id,Boolean(data.demo))});
  initMarketGraph(persons,r);
  $('#runScenario').onclick=()=>runScenario(p.id,run.parent_run_id||run.id,Boolean(data.demo))
 }
@@ -225,7 +252,8 @@ function renderProducts(products,r,config={}){if(!products.length)return `<p cla
 function renderPersonas(items){return `<table class="data-table persona-table"><thead><tr><th>الشخصية</th><th>الدور والدافع</th><th>العرض المدروس</th><th>Intent</th><th>القرار</th><th>السبب المختصر</th></tr></thead><tbody>${items.map(x=>`<tr data-persona-id="${x.persona_id}" tabindex="0"><td><b>${escapeHtml(x.name||`#${x.persona_id}`)}</b><small>${x.age} · ${escapeHtml(x.wilaya)}</small></td><td>${escapeHtml(x.market_role||'فاعل سوق')}<small>${escapeHtml(x.primary_motivation||x.archetype)}</small></td><td>${escapeHtml(x.selected_offer?.name||'العرض الرئيسي')}<small>${x.selected_offer?formatDzd(x.selected_offer.price):escapeHtml(x.preferred_channel||x.language)}</small></td><td><b>${Math.round(x.probability*100)}%</b>${x.scenario_delta?`<small class="${x.scenario_delta>0?'up':'down'}">${x.scenario_delta>0?'+':''}${(x.scenario_delta*100).toFixed(1)}</small>`:''}</td><td>${escapeHtml(x.reaction_label||(x.buys?'مهتم':'متردد'))}</td><td class="reason-cell">${escapeHtml(x.decision_reason||(x.payment||(x.objections||[]).join('، ')))}</td></tr>`).join('')}</tbody></table>`}
 async function runScenario(projectId,runId,demo=false){
  const text=$('#scenarioText').value.trim();if(!text)return toast('اكتب القرار الجديد أولاً.',true);
- const btn=$('#runScenario');btn.disabled=true;btn.textContent='جاري اختبار القرار…';
+ const btn=$('#runScenario');if(btn.disabled)return;btn.disabled=true;btn.textContent='جاري اختبار القرار…';
+ $$('.scenario-suggestion, .scenario-quick-action').forEach(button=>button.disabled=true);
  const response=$('#scenarioResponse');response.innerHTML='<div class="scenario-loading">نحسب أثر التغيير على الطلب والربح وشخصيات الزبائن…</div>';
  try{
   const endpoint=demo?`/api/demo/${projectId}/live-market/scenario`:`/api/projects/${projectId}/scenarios`;
@@ -238,7 +266,7 @@ async function runScenario(projectId,runId,demo=false){
   $('#scenarioPanel').scrollIntoView({behavior:'smooth',block:'center'});
   toast(demo?'تمت المقارنة. هذه حالة توضيحية غير محفوظة.':'تم حفظ السيناريو وعرض المقارنة.');
  }catch(e){response.innerHTML=`<div class="scenario-error" role="alert">${escapeHtml(e.message)}</div>`;toast(e.message,true)}
- finally{const current=$('#runScenario');if(current){current.disabled=false;current.textContent='قارن قبل وبعد ↗'}}
+ finally{const current=$('#runScenario');if(current){current.disabled=false;current.textContent='قارن قبل وبعد ↗'}$$('.scenario-suggestion, .scenario-quick-action').forEach(button=>button.disabled=false)}
 }
 
 async function loadAdmin(){state.adminPassword=$('#adminPassword').value;try{const d=await api('/api/admin',{method:'POST',body:JSON.stringify({password:state.adminPassword})});renderAdmin(d);$('#adminGate').classList.add('hidden');$('#adminPanel').classList.remove('hidden')}catch(e){toast(e.message,true)}}
